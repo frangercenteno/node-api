@@ -16,6 +16,12 @@ const createItemValidation = [
   (req, res, next) => validationResults(req, res, next),
 ];
 
+const getItemValidation = [
+  check("id").exists().notEmpty().isMongoId(),
+  (req, res, next) => validationResults(req, res, next),
+];
+
 module.exports = {
   createItemValidation,
+  getItemValidation,
 }

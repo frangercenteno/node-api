@@ -5,7 +5,7 @@ const dbConnect = () => {
   mongoose.connect(DB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
-  }, (err, res) => {
+  }, (err, _res) => {
     if (!err) {
       console.log('Connection Succesfully ');
     } else {
