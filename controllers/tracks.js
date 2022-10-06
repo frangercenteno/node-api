@@ -1,5 +1,5 @@
 const { matchedData } = require('express-validator');
-const { tracksModel } = require('../models');
+const { tracksModel, storageModel } = require('../models');
 const { handleHttpError } = require('../utils/handleError');
 
 
@@ -25,8 +25,7 @@ const getItems = async (req, res) => {
  */
 const getItem = async (req, res) => {
   try {
-    res = matchedData(req);
-    const { id } = res;
+    const { id } = matchedData(req);
     const data = await tracksModel.findById(id);
     res.send({ data });
   } catch (e) {
@@ -74,8 +73,7 @@ const updateItem = async (req, res) => {
  */
 const deleteItem = async (req, res) => {
   try {
-    res = matchedData(req);
-    const { id } = res;
+    const { id } = matchedData(req);
     const data = await tracksModel.delete({ _id: id });
     res.send({ data });
   } catch (e) {
