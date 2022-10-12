@@ -1,20 +1,21 @@
 const express = require('express');
 const { getItems, createItem, getItem, updateItem, deleteItem } = require('../controllers/tracks');
 const { createItemValidation, getItemValidation } = require("../validators/tracks");
-const customHeader = require("../middleware/customHeader")
+const authMiddleware = require('../middleware/session');
+const checkRol = require("../middleware/rol");
 const router = express.Router();
 
 // TODO: http://localhost/tracks GET, POST, DELETE, PUT
 
-router.get('/', getItems);
+router.get('/', authMiddleware, checkRol(["admin"]), getItems);
 
-router.get('/:id', getItemValidation, getItem);
+router.get('/:id', authMiddleware, getItemValidation, getItem);
 
-router.post('/', createItemValidation, createItem);
+router.post('/', authMiddleware, createItemValidation, createItem);
 
-router.put('/:id', getItemValidation, createItemValidation, updateItem);
+router.put('/:id', authMiddleware, getItemValidation, createItemValidation, updateItem);
 
-router.delete('/:id', getItemValidation, deleteItem);
+router.delete('/:id', authMiddleware, getItemValidation, deleteItem);
 
 
 
