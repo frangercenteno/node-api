@@ -7,7 +7,7 @@ const router = express.Router();
 
 // TODO: http://localhost/tracks GET, POST, DELETE, PUT
 
-router.get('/', authMiddleware, checkRol(["admin"]), getItems);
+router.get('/', authMiddleware, checkRol(["admin", "user"]), getItems);
 
 router.get('/:id', authMiddleware, getItemValidation, getItem);
 

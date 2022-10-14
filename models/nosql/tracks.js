@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const mongooseDelete = require("mongoose-delete");
 
 const TracksSchema = new mongoose.Schema(
@@ -15,8 +15,8 @@ const TracksSchema = new mongoose.Schema(
         validator: (req) => {
           return true;
         },
-        message: "ERROR_URL"
-      }
+        message: "ERROR_URL",
+      },
     },
     artist: {
       name: {
@@ -27,30 +27,69 @@ const TracksSchema = new mongoose.Schema(
       },
       nationality: {
         type: String,
-      }
+      },
     },
     duration: {
       start: {
         type: Number,
       },
       end: {
-        type: Number
-      }
+        type: Number,
+      },
     },
     mediaId: {
       type: mongoose.Types.ObjectId,
-    }
-  }, 
+    },
+  },
   {
     timestamps: true, //TODO: createdAt, updatedAt
     versionKey: false,
   }
 );
 
-/** 
- * @params name schema
- * @params schema
-*/
+/**
+ * Implementar metodo propio con relacion a storage
+ */
 
-TracksSchema.plugin(mongooseDelete, { overrideMethods: "all" });
-module.exports = mongoose.model("tracks", TracksSchema);
+TracksScheme.statics.findAllData = function () {
+  const joinData = this.aggregate([
+    //TODO Tracks
+    {
+      $lookup: {
+        from: "storages", //TODO Tracks --> storages
+        localField: "mediaId", //TODO Tracks.mediaId
+        foreignField: "_id", //TODO Straoges._id
+        as: "audio", //TODO Alias!
+      },
+    },
+    {
+      $unwind: "$audio",
+    },
+  ]);
+  return joinData;
+};
+
+TracksScheme.statics.findOneData = function (id) {
+  const joinData = this.aggregate([
+    {
+      $match: {
+        _id: mongoose.Types.ObjectId(id),
+      },
+    },
+    {
+      $lookup: {
+        from: "storages", //TODO Tracks --> storages
+        localField: "mediaId", //TODO Tracks.mediaId
+        foreignField: "_id", //TODO Straoges._id
+        as: "audio", //TODO Alias!
+      },
+    },
+    {
+      $unwind: "$audio",
+    },
+  ]);
+  return joinData;
+};
+
+TracksScheme.plugin(mongooseDelete, { overrideMethods: "all" });
+module.exports = mongoose.model("tracks", TracksScheme);

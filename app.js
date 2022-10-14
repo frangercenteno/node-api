@@ -1,8 +1,11 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const dbConnect = require('./config/mongo');
+const dbConnectNoSql = require('./config/mongo');
+const { dbConnectMysql } = require('./config/mysql');
 const app = express();
+
+const ENGINE_DB = process.env.ENGINE_DB;
 
 app.use(cors());
 app.use(express.json());
@@ -17,4 +20,8 @@ app.listen(port, () => {
   console.log(`listen in port ${port}`);
 });
 
-dbConnect();
+if (ENGINE_DB === "nosql") {
+  dbConnectNoSql();
+} else {
+  dbConnectMysql();
+}
