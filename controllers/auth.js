@@ -54,7 +54,7 @@ const login = async (req, res) => {
       token: tokenSign(user),
       user,
     }
-
+    res.status(201);
     res.send({ data });
 
 
