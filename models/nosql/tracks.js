@@ -51,7 +51,7 @@ const TracksSchema = new mongoose.Schema(
  * Implementar metodo propio con relacion a storage
  */
 
-TracksScheme.statics.findAllData = function () {
+ TracksSchema.statics.findAllData = function () {
   const joinData = this.aggregate([
     //TODO Tracks
     {
@@ -69,7 +69,7 @@ TracksScheme.statics.findAllData = function () {
   return joinData;
 };
 
-TracksScheme.statics.findOneData = function (id) {
+TracksSchema.statics.findOneData = function (id) {
   const joinData = this.aggregate([
     {
       $match: {
@@ -91,5 +91,5 @@ TracksScheme.statics.findOneData = function (id) {
   return joinData;
 };
 
-TracksScheme.plugin(mongooseDelete, { overrideMethods: "all" });
-module.exports = mongoose.model("tracks", TracksScheme);
+TracksSchema.plugin(mongooseDelete, { overrideMethods: "all" });
+module.exports = mongoose.model("tracks", TracksSchema);

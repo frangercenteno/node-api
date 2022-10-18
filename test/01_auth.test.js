@@ -26,9 +26,8 @@ test("esto deberia de retornar 201", async () => {
   expect(response.body).toHaveProperty("data.user");
 });
 
-
 test("esto deberia de retornar password no valido 401", async () => {
-  const newTestAuthLogin = {...testAuthLogin, password:"22222222"}
+  const newTestAuthLogin = { ...testAuthLogin, password: "22222222" };
   const response = await supertestRequest(app)
     .post("/api/auth/login")
     .send(newTestAuthLogin);

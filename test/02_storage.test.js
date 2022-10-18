@@ -1,7 +1,7 @@
 const request = require("supertest");
 const app = require("../app");
 const { tokenSign } = require("../utils/handleJwt");
-const { testAuthRegister } = require("./helper/helperData")
+const { testAuthRegister } = require("./helper/helperData");
 const { usersModel } = require("../models");
 const { storageModel } = require("../models");
 let JWT_TOKEN = "";
