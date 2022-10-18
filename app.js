@@ -9,6 +9,7 @@ const openApiConfigration = require('./docs/swagger');
 const app = express();
 
 const ENGINE_DB = process.env.ENGINE_DB;
+const NODE_ENV = process.env.NODE_ENV || 'development';
 
 app.use(cors());
 app.use(express.json());
@@ -30,12 +31,14 @@ app.use('/documentation', swaggerUI.serve, swaggerUI.setup(openApiConfigration))
 // Routes
 app.use("/api", require("./routes"));
 
-app.listen(port, () => {
-  console.log(`listen in port ${port}`);
-});
+if (NODE_ENV !== 'test') {
+  app.listen(port);
+}
 
 if (ENGINE_DB === "nosql") {
   dbConnectNoSql();
 } else {
   dbConnectMysql();
 }
+
+module.exports = app;
